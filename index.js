@@ -2,7 +2,8 @@
 
 const debug = require('debug')('CommonDao');
 const createCommonDao = require('common-dao');
-const mysql = require('mysql');
+const SqlString = require('sqlstring');
+const async = require('async');
 const TYPE_COLUMN = 1;
 const TYPE_PK = 2;
 const TYPE_INDEX = 3;
@@ -48,11 +49,11 @@ function* loadMetadata(client, table, caseSensitive){
 function queryFormat(query, values) {
 	if ( !values ) return query;
 	if ( values instanceof Array ) {
-		return mysql.format.apply(mysql, arguments);
+		return SqlString.format.apply(mysql, arguments);
 	}
 	return query.replace(/\:(\w+)/g, function (txt, key) {
 		if (values.hasOwnProperty(key)) {
-			return mysql.escape(values[key]);
+			return SqlString.escape(values[key]);
 		}
 		return txt;
 	});
@@ -124,6 +125,20 @@ class MysqlDaoAdapter {
   		});
     }
 	}
+
+  batch(scripts) {
+    var client = this.getConnection();
+    return function mysqlFakeBatch(callback){
+      async.each(scripts, function(script, done){
+        client.query(script[0], script[1], function(err, rows, fields){
+    			if ( err ) {
+    				return done(err);
+    			}
+    			done(null, rows);
+    		});
+      }, callback);
+    }
+  }
 }
 
 module.exports = function createMysqlDao(table, client, options){

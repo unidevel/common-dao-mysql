@@ -1,11 +1,37 @@
 {
   "name": "common-dao-mysql",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Mysql dao helper",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Jerry",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unidevel/common-dao-mysql.git"
+  },
+  "keywords": [
+    "common-dao",
+    "common-dao-mysql",
+    "commondao",
+    "mysql"
+  ],
+  "dependencies": {
+    "debug": "^2.2.0",
+    "async": "^2.0.1",
+    "sqlstring": "^2.0.1",
+    "common-dao": "^0.1.0"
+  },
+  "engines": {
+    "node": ">= 4.2.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/unidevel/common-dao-mysql/issues"
+  },
+  "homepage": "https://github.com/unidevel/common-dao-mysql"
 }
